@@ -1,1 +1,2 @@
-This repo is for personal extra purpose only.
+This repo is for personal extra purposes only.
+<br> python codes <br>
