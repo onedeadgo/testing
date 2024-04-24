@@ -1,34 +1,81 @@
-def merge_sort(arr):
-    if len(arr) > 1:
-        mid = len(arr) // 2
-        left_half = arr[:mid]
-        right_half = arr[mid:]
+def merge_sort(data, start, end):
+  """Sorts a portion of the list using merge sort algorithm.
 
-        merge_sort(left_half)
-        merge_sort(right_half)
+  Args:
+      data: The list to be sorted.
+      start: Starting index of the sublist to sort.
+      end: Ending index of the sublist to sort (inclusive).
 
-        i = j = k = 0
+  Returns:
+      None (sorts the data list in-place).
+  """
+  if start < end:
+    # Find the middle point of the sublist
+    mid = (start + end) // 2
 
-        while i < len(left_half) and j < len(right_half):
-            if left_half[i] < right_half[j]:
-                arr[k] = left_half[i]
-                i += 1
-            else:
-                arr[k] = right_half[j]
-                j += 1
-            k += 1
+    # Recursively sort the first and second halves
+    merge_sort(data, start, mid)
+    merge_sort(data, mid + 1, end)
 
-        while i < len(left_half):
-            arr[k] = left_half[i]
-            i += 1
-            k += 1
+    # Merge the sorted halves
+    merge(data, start, mid, end)
 
-        while j < len(right_half):
-            arr[k] = right_half[j]
-            j += 1
-            k += 1
+def merge(data, start, mid, end):
+  """Merges two sorted sublists into a single sorted sublist.
 
-# Example usage:
-my_list = [64, 34, 25, 12, 22, 11, 90]
-merge_sort(my_list)
-print("Sorted array:", my_list)
+  Args:
+      data: The list containing the sublists to merge.
+      start: Starting index of the first sublist.
+      mid: Ending index of the first sublist (inclusive, also the starting index of the second sublist).
+      end: Ending index of the second sublist (inclusive).
+  """
+  # Create temporary arrays for the sublists
+  left_size = mid - start + 1
+  right_size = end - mid
+  left = [None] * left_size
+  right = [None] * right_size
+
+  # Copy data to temporary arrays
+  for i in range(left_size):
+    left[i] = data[start + i]
+  for i in range(right_size):
+    right[i] = data[mid + 1 + i]
+
+  # Merge the temporary arrays back into the original list
+  i = 0
+  j = 0
+  k = start
+  while i < left_size and j < right_size:
+    if left[i] <= right[j]:
+      data[k] = left[i]
+      i += 1
+    else:
+      data[k] = right[j]
+      j += 1
+    k += 1
+
+  # Copy the remaining elements (if any)
+  while i < left_size:
+    data[k] = left[i]
+    i += 1
+    k += 1
+  while j < right_size:
+    data[k] = right[j]
+    j += 1
+    k += 1
+
+# Get user input for the list
+data = []
+num_elements = int(input("Enter the number of elements: "))
+for i in range(num_elements):
+  element = int(input("Enter element {}: ".format(i+1)))
+  data.append(element)
+
+# Print the unsorted list
+print("Unsorted list:", data)
+
+# Sort the list using merge sort
+merge_sort(data, 0, len(data) - 1)
+
+# Print the sorted list
+print("Sorted list:", data)
