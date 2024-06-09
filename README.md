@@ -1,2 +1,2 @@
 This repo is for personal extra purposes only.
-<br> python codes <br>
+<br> python codes only. <br>
